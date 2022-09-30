@@ -36,7 +36,7 @@ end;
 -- Ejercicio #4: Visualizar el nombre del departamento y el numero de empleados.
 SET SERVEROUTPUT ON;
 declare
-    idDepartment number := 60;
+    idDepartment departments.department_id%type := 60;
     departmentName departments.department_name%type;
     totalEmployees number;
 begin
