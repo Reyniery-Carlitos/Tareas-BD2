@@ -10,12 +10,13 @@ FROM `bigquery-public-data.covid19_covidtracking.summary`;
 
 -- Consulta #3
 WITH totalPageViews AS (
-    SELECT DISTINCT channelGrouping, SUM(totals.pageviews) OVER(partition BY channelGrouping) AS totalInd, SUM(totals.pageviews) OVER() AS totalTotal
+    SELECT DISTINCT channelGrouping, SUM(totals.pageviews) OVER(PARTITION BY channelGrouping) AS totalInd, SUM(totals.pageviews) OVER() AS totalTotal
     FROM `bigquery-public-data.google_analytics_sample.ga_sessions_20170801`
 ) SELECT channelGrouping, totalInd AS PageViews, (totalInd / totalTotal) AS PorcentajeDelTotal, (totalTotal/COUNT(*) OVER()) AS Promedio
 FROM totalPageViews 
 ORDER BY PageViews DESC;
 
 -- Consulta 4
-SELECT region, country, total_revenue, RANK() OVER(partition BY region ORDER BY region DESC, total_revenue DESC) AS Rango 
+SELECT region, country, total_revenue, RANK() OVER(PARTITION BY region ORDER BY total_revenue DESC) AS Rango 
 FROM `pacific-ethos-361219.01.Prueba proyectoBD2` 
+ORDER BY region, Rango;
